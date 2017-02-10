@@ -7,6 +7,11 @@ var HashTable = function() {
 
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
+  this._storage.each(function (storageItem, storageIndex) {
+    if (storageIndex === index) {
+      index = Math.floor(Math.random(index) * 10);
+    }
+  });
   this._storage.set(index, v);
 };
 
