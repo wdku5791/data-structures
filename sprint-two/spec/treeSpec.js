@@ -23,6 +23,12 @@ describe('tree', function() {
 
   it('should return false for a value that was not added', function() {
     tree.addChild(5);
+    tree.addChild(1);
+    tree.addChild(3);
+    tree.addChild(4);
+    tree.children[0].addChild(9);
+    tree.children[0].children[0].addChild(10);
+    tree.children[0].children[0].children[0].addChild(22);
     expect(tree.contains(6)).to.equal(false);
   });
 

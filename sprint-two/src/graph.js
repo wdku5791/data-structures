@@ -4,12 +4,13 @@
 var Graph = function() {
   this.nodeList = {};
   this.edgeList = {};
-
+  this.counter = 0;
 };
 
 // Add a node to the graph, passing in the node's value.
 Graph.prototype.addNode = function(node) {
   this.nodeList[node] = node;
+  this.counter++;
 };
 
 // Return a boolean value indicating if the value passed to contains is represented in the graph.
@@ -30,6 +31,7 @@ Graph.prototype.removeNode = function(node) {
       delete this.edgeList[prop];
     }
   }
+  (this.counter)--;
 
 };
 

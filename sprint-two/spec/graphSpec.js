@@ -68,4 +68,15 @@ describe('graph', function() {
     expect(graph.hasEdge(3, 5)).to.equal(true);
     expect(graph.hasEdge(5, 5)).to.equal(true);
   });
+
+  it('should count the number of nodes in the graph', function () {
+    graph.addNode(1);
+    graph.addNode(2);
+    graph.addNode(3);
+    expect(graph.counter).to.equal(3);
+    graph.addNode(4);
+    expect(graph.counter).to.equal(4);
+    graph.removeNode(4);
+    expect(graph.counter).to.equal(3);
+  });
 });
