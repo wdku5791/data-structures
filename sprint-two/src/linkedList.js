@@ -8,35 +8,77 @@ var LinkedList = function() {
   // var counter = 0;
 
   list.addToTail = function(value) {
-    if (list.tail !== null) {
-      list.node = list.tail;
-      list.tail = Node(value);
-      list.node.next = list.tail.value;
-    } else {
-      list.tail = Node(value);
-    }
-
-    if (list.head === null) {
-      list.head = list.tail;
+    if (list.tail === null) {
+      list.head = Node(value);
+      list.tail = list.head;
     } else if (list.head === list.tail) {
-      list.head.next = list.tail.value;
+      list.tail = Node(value);
+      list.head.next = list.tail;
+      list.tail.previous = list.head;
+    } else {
+      var tempNode;
+      tempNode = list.tail;
+      list.tail = Node(value);
+      tempNode.next = list.tail;
+      list.tail.previous = tempNode;
     }
 
   };
 
   list.removeHead = function() {
-    var tempHead = list.head.value;
-    list.head.value = list.head.next;
-    //list.head.next = list.head.next.next;
-    return tempHead;
+    var tempNode;
+    tempNode = list.head;
+    list.head = list.head.next;
+    if (list.head !== list.tail) {
+      list.head.previous = null;
+    }
+    return tempNode.value;
+  };
+
+  list.addToHead = function(value) {
+    if (list.head === null) {
+      list.head = Node(value);
+      list.tail = list.head;
+    } else if (list.head === list.tail) {
+      list.head = Node(value);
+      list.head.next = list.tail;
+      list.tail.previous = list.head;
+    } else {
+      var tempNode;
+      tempNode = list.head;
+      list.head = Node(value);
+      tempNode.previous = list.head;
+      list.head.next = tempNode;
+    }
+  };
+  list.removeTail = function () {
+    var tempNode;
+    tempNode = list.tail;
+    list.tail = list.tail.previous;
+    if (list.head !== list.tail) {
+      list.tail.next = null;
+    }
+    return tempNode.value;
   };
 
   list.contains = function(target) {
-    if (list.head.value === target || list.tail.value === target || list.node.value === target) {
-      return true;
-    } else {
-      return false;
-    }
+    var result = false;
+    
+    var traverse = function(object) {
+      //console.log(this);
+      //debugger;
+
+      if (this.value === target) {
+        result = true;
+        return;
+      }
+      if (this.next === undefined) {
+        return;
+      }
+      traverse.apply(this.next, this.next);
+    };
+    traverse.apply(list.head, list.head);
+    return result;
   };
 
   return list;
@@ -47,6 +89,7 @@ var Node = function(value) {
 
   node.value = value;
   node.next = null;
+  node.previous = null;
 
   return node;
 };

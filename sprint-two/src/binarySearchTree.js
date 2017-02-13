@@ -4,7 +4,6 @@ var BinarySearchTree = function(value) {
   newBinaryTree.left;
   newBinaryTree.right;
   newBinaryTree.height = 0;
-  newBinaryTree.grow = this; 
   newBinaryTree.value = value;
   // newBinaryTree.
 
@@ -57,21 +56,23 @@ binaryMethods.contains = function (target) {
       result = true;
     }
 
-    if (node.left !== undefined) {
-      if (node.left.value === target) {
-        result = true;
-      } else if (node.left.value <= target) {
-        climbTree(node.left);
-      }  
-    }
+    // if (node.left !== undefined) {
+      // if (node.left.value === target) {
+      //   result = true;
+      // } else 
+    if (node.left !== undefined && node.value < target) {
+      climbTree(node.right);
+    }  
+    // }
 
-    if (node.right !== undefined) {
-      if (node.right.value === target) {
-        result = true;
-      } else if (node.right.value > target) {
-        climbTree(node.right);
-      }      
-    }
+    //if (node.right !== undefined) {
+      // if (node.right.value === target) {
+      //   result = true;
+      // } else 
+    if (node.right !== undefined && node.value > target) {
+      climbTree(node.left);
+    }      
+    // }
   };
   climbTree(this);
   return result;
