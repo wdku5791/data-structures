@@ -9,6 +9,7 @@ describe('tree', function() {
     expect(tree.addChild).to.be.a('function');
     expect(tree.contains).to.be.a('function');
     expect(tree.removeFromParent).to.be.a('function');
+    expect(tree.search).to.be.a('function');
     expect(tree.hasOwnProperty('value')).to.equal(true);
   });
 
@@ -47,6 +48,17 @@ describe('tree', function() {
     expect(tree.contains(7)).to.equal(true);
     expect(tree.contains(8)).to.equal(true);
   });
+  it('should correctly search through nested children', function() {
+    tree.addChild(5);
+    tree.addChild(1);
+    tree.addChild(3);
+    tree.addChild(4);
+    tree.children[0].addChild(9);
+    tree.children[0].children[0].addChild(10);
+    tree.children[0].children[0].children[0].addChild(22);
+    expect(tree.search(10)).to.equal(tree.children[0].children[0].children[0]);
+    expect(tree.search(22)).to.equal(tree.children[0].children[0].children[0].children[0]);
+  });
 
   it('should correctly detect parents', function() {
     tree.addChild(5);
@@ -59,7 +71,7 @@ describe('tree', function() {
     expect(tree.children[0].children[0].children[0].children[0].parent.value).to.equal(tree.children[0].children[0].children[0].value);
   });
 
-  it('should correctly remove parents', function() {
+  it('should correctly remove parents by node', function() {
     tree.addChild(5);
     tree.addChild(1);
     tree.addChild(3);
@@ -68,6 +80,18 @@ describe('tree', function() {
     tree.children[0].children[0].addChild(10);
     tree.children[0].children[0].children[0].addChild(22);
     tree.children[0].children[0].removeFromParent();
+    expect(tree.contains(2)).to.equal(false);
+    expect(tree.contains(22)).to.equal(false);
+  });
+  it('should correctly remove parents by target value', function() {
+    tree.addChild(5);
+    tree.addChild(1);
+    tree.addChild(3);
+    tree.addChild(4);
+    tree.children[0].addChild(9);
+    tree.children[0].children[0].addChild(10);
+    tree.children[0].children[0].children[0].addChild(22);
+    tree.removeFromParent(10);
     expect(tree.contains(2)).to.equal(false);
     expect(tree.contains(22)).to.equal(false);
   });
